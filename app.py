@@ -10,13 +10,12 @@ executor = ThreadPoolExecutor(max_workers=10)
 session = requests.Session()
 
 # --- Configuration ---
-API_KEY = "Flash"             
 
 
-BACKGROUND_FILENAME = "outfit.png"  
+BACKGROUND_FILENAME = "outfit.png"
 
 
-IMAGE_TIMEOUT = 8
+IMAGE_TIMEOUT = 10
 
 
 CANVAS_SIZE = (800, 800)
@@ -51,10 +50,6 @@ def fetch_and_process_image(image_url: str, size: tuple = None):
 @app.route('/outfit', methods=['GET'])
 def outfit_image():
     uid = request.args.get('uid')
-    key = request.args.get('key')
-
-    if key != API_KEY:
-        return jsonify({'error': 'Invalid or missing API key'}), 401
 
     if not uid:
         return jsonify({'error': 'Missing uid parameter'}), 400
@@ -160,6 +155,4 @@ def outfit_image():
     return send_file(output, mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
-    
-#made by FL4SH_FF
+    app.run(host='0.0.0.0', port=5001, debug=True)
